@@ -27,10 +27,10 @@ setup(
     author='Mozilla Foundation and contributors',
     license='BSD',
     packages=find_packages(),
-    install_requires=[
-        'elasticsearch>=1.0',
-        'six'
+    dependency_links=[
+        'https://github.com/confususs/elasticsearch_old/archive/master.zip'
     ],
+    install_requires=['six'],
     include_package_data=True,
     classifiers=[
         'Development Status :: 4 - Beta',
