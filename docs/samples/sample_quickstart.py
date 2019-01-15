@@ -6,20 +6,20 @@ it uses ElasticUtils S to show some behavior.
 
 from elasticutils import get_es, S
 
-from elasticsearch.helpers import bulk_index
+from elasticsearch_old.helpers import bulk_index
 
 URL = 'localhost'
 INDEX = 'fooindex'
 DOCTYPE = 'testdoc'
- 
+
 
 # This creates an elasticsearch.Elasticsearch object which we can use
 # to do all our indexing.
 es = get_es(urls=[URL])
- 
+
 # First, delete the index if it exists.
 es.indices.delete(index=INDEX, ignore=404)
- 
+
 # Define the mapping for the doctype 'testdoc'. It's got an id field,
 # a title which is analyzed, and two fields that are lists of tags, so
 # we don't want to analyze them.
@@ -33,7 +33,7 @@ mapping = {
             }
         }
     }
- 
+
 # Create the index 'testdoc' mapping.
 es.indices.create(INDEX, body={'mappings': mapping})
 

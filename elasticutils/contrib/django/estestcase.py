@@ -5,8 +5,8 @@ from __future__ import print_function
 from django.test import TestCase
 
 from django.conf import settings
-from elasticsearch.exceptions import ConnectionError
-from elasticsearch.helpers import bulk_index
+from elasticsearch_old.exceptions import ConnectionError
+from elasticsearch_old.helpers import bulk_index
 import six
 
 # Try really really hard to find a valid skip thing.

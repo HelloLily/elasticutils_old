@@ -6,21 +6,21 @@ it uses ElasticUtils S to show some behavior with facets.
 
 from elasticutils import get_es, S
 
-from elasticsearch.helpers import bulk_index
+from elasticsearch_old.helpers import bulk_index
 
 URL = 'localhost'
 INDEX = 'fooindex'
 DOCTYPE = 'testdoc'
- 
+
 
 # This creates an elasticsearch.Elasticsearch object which we can use
 # to do all our indexing.
 es = get_es(urls=[URL])
- 
+
 # First, delete the index, ignore possible 404 - it means the index doesn't
 # exist, so there's nothing to delete.
 es.indices.delete(index=INDEX, ignore=404)
- 
+
 # Define the mapping for the doctype 'testdoc'. It's got an id field,
 # a title which is analyzed, and two fields that are lists of tags, so
 # we don't want to analyze them.
@@ -39,7 +39,7 @@ mapping = {
             }
         }
     }
- 
+
 # create the index with defined mappings
 es.indices.create(index=INDEX, body={'mappings': mapping})
 
@@ -79,7 +79,7 @@ es.indices.refresh(index=INDEX)
 # Let's build a basic S that looks at the right Elasticsearch cluster,
 # index and doctype.
 basic_s = S().es(urls=[URL]).indexes(INDEX).doctypes(DOCTYPE).values_dict()
- 
+
 # Now let's see facet counts for all the products.
 s = basic_s.facet('product')
 

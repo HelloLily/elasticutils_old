@@ -1,6 +1,6 @@
 from functools import wraps
 
-from elasticsearch import Elasticsearch
+from elasticsearch_old import Elasticsearch
 
 
 _monkeypatched_es = False
