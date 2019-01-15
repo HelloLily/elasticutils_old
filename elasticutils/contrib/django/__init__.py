@@ -2,7 +2,7 @@ import six
 import logging
 from functools import wraps
 
-import elasticsearch
+import elasticsearch_old
 
 from django.conf import settings
 from django.shortcuts import render

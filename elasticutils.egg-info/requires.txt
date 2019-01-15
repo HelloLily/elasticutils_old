@@ -1,2 +1,2 @@
-elasticsearch>=1.0
+https://github.com/confususs/elasticsearch_old/archive/master.zip
 six
