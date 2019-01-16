@@ -19,7 +19,7 @@ log = logging.getLogger('elasticutils')
 
 
 ES_EXCEPTIONS = (
-    elasticsearch.ElasticsearchException,
+    elasticsearch_old.ElasticsearchException,
 )
 
 
