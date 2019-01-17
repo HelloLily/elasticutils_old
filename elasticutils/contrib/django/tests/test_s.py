@@ -14,19 +14,19 @@ class TestS(TestCase):
 
     def test_get_indexes(self):
         """Test get_indexes always returns a list of strings."""
-        # Pulls it from ES_INDEXES (list of strings).
+        # Pulls it from ES_OLD_INDEXES (list of strings).
         s = S(FakeDjangoMappingType)
         eq_(s.get_indexes(), ['elasticutilstest'])
 
-        # Pulls it from ES_INDEXES (string).
-        old_indexes = settings.ES_INDEXES
+        # Pulls it from ES_OLD_INDEXES (string).
+        old_indexes = settings.ES_OLD_INDEXES
         try:
-            settings.ES_INDEXES = {'default': 'elasticutilstest'}
+            settings.ES_OLD_INDEXES = {'default': 'elasticutilstest'}
 
             s = S(FakeDjangoMappingType)
             eq_(s.get_indexes(), ['elasticutilstest'])
         finally:
-            settings.ES_INDEXES = old_indexes
+            settings.ES_OLD_INDEXES = old_indexes
 
         # Pulls from indexes.
         s = S(FakeDjangoMappingType).indexes('footest')

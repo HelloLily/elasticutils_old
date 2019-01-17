@@ -40,7 +40,7 @@ def index_objects(mapping_type, ids, chunk_size=100, es=None, index=None):
         it'll use `mapping_type.get_index()`.
 
     """
-    if settings.ES_DISABLED:
+    if settings.ES_OLD_DISABLED:
         return
 
     log.debug('Indexing objects {0}-{1}. [{2}]'.format(
@@ -86,7 +86,7 @@ def unindex_objects(mapping_type, ids, es=None, index=None):
     :arg index: The name of the index to use. If you don't specify one
         it'll use `mapping_type.get_index()`.
     """
-    if settings.ES_DISABLED:
+    if settings.ES_OLD_DISABLED:
         return
 
     for id_ in ids:

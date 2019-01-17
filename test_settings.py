@@ -4,10 +4,10 @@ import os
 ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
-ES_URLS = ['http://localhost:9200']
-ES_INDEXES = {'default': ['elasticutilstest']}
-ES_TIMEOUT = 10
-ES_DISABLED = False
+ES_OLD_URLS = ['http://localhost:9200']
+ES_OLD_INDEXES = {'default': ['elasticutilstest']}
+ES_OLD_TIMEOUT = 10
+ES_OLD_DISABLED = False
 
 CELERY_ALWAYS_EAGER = True
 

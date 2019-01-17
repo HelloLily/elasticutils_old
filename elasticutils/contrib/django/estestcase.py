@@ -53,8 +53,8 @@ def testify(indexes):
 class ESTestCase(TestCase):
     """Test case scaffolding for ElasticUtils-using tests.
 
-    If ``ES_URLS`` is empty or missing or you can't connect to
-    Elasticsearch specified in ``ES_URLS``, then this will skip each
+    If ``ES_OLD_URLS`` is empty or missing or you can't connect to
+    Elasticsearch specified in ``ES_OLD_URLS``, then this will skip each
     individual test. This works with py.test, nose, and unittest in
     Python 2.7. If you don't have one of those, then this will print
     to stdout and just skip the test silently.
@@ -73,7 +73,7 @@ class ESTestCase(TestCase):
 
         """
         super(ESTestCase, cls).setUpClass()
-        if not getattr(settings, 'ES_URLS', None):
+        if not getattr(settings, 'ES_OLD_URLS', None):
             cls.skip_tests = True
             return
 
@@ -84,15 +84,15 @@ class ESTestCase(TestCase):
             return
 
         # Save settings and override them
-        cls._old_es_disabled = settings.ES_DISABLED
-        settings.ES_DISABLED = False
+        cls._old_es_disabled = settings.ES_OLD_DISABLED
+        settings.ES_OLD_DISABLED = False
 
-        cls._old_es_indexes = settings.ES_INDEXES
-        settings.ES_INDEXES = testify(settings.ES_INDEXES)
+        cls._old_es_indexes = settings.ES_OLD_INDEXES
+        settings.ES_OLD_INDEXES = testify(settings.ES_OLD_INDEXES)
 
         # This is here in case the previous test run failed and didn't
         # clean up after itself.
-        for index in settings.ES_INDEXES.values():
+        for index in settings.ES_OLD_INDEXES.values():
             cls.get_es().indices.delete(index=index, ignore=404)
 
     def setUp(self):
@@ -112,12 +112,12 @@ class ESTestCase(TestCase):
         if not cls.skip_tests:
             # If we didn't skip these tests, we need to do some
             # cleanup.
-            for index in settings.ES_INDEXES.values():
+            for index in settings.ES_OLD_INDEXES.values():
                 cls.cleanup_index(index)
 
             # Restore settings
-            settings.ES_DISABLED = cls._old_es_disabled
-            settings.ES_INDEXES = cls._old_es_indexes
+            settings.ES_OLD_DISABLED = cls._old_es_disabled
+            settings.ES_OLD_INDEXES = cls._old_es_indexes
 
         super(ESTestCase, cls).tearDownClass()
 

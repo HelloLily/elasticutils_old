@@ -447,15 +447,15 @@ Version 0.7: Released June 12th, 2013
 
 * **Django: changed settings.**
 
-  Changed ES_HOSTS setting to ES_URLS. This is both a name and a value
-  change. ES_URLS takes a list of strings each is an http url. You'll
+  Changed ES_HOSTS setting to ES_OLD_URLS. This is both a name and a value
+  change. ES_OLD_URLS takes a list of strings each is an http url. You'll
   neex to update your settings files from::
 
       ES_HOSTS = ['localhost:9200']        # Old way
 
   to::
 
-      ES_URLS = ['http://localhost:9200']  # New way
+      ES_OLD_URLS = ['http://localhost:9200']  # New way
 
   ES_DUMP_CURL is gone.
 

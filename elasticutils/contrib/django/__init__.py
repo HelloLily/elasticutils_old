@@ -39,8 +39,8 @@ def get_es(**overrides):
 
     """
     defaults = {
-        'urls': settings.ES_URLS,
-        'timeout': getattr(settings, 'ES_TIMEOUT', 5)
+        'urls': settings.ES_OLD_URLS,
+        'timeout': getattr(settings, 'ES_OLD_TIMEOUT', 5)
         }
 
     defaults.update(overrides)
@@ -48,7 +48,7 @@ def get_es(**overrides):
 
 
 def es_required(fun):
-    """Wrap a callable and return None if ES_DISABLED is False.
+    """Wrap a callable and return None if ES_OLD_DISABLED is False.
 
     This also adds an additional `es` argument to the callable
     giving you an ElasticSearch instance to use.
@@ -56,7 +56,7 @@ def es_required(fun):
     """
     @wraps(fun)
     def wrapper(*args, **kw):
-        if getattr(settings, 'ES_DISABLED', False):
+        if getattr(settings, 'ES_OLD_DISABLED', False):
             log.debug('Search disabled for %s.' % fun)
             return
 
@@ -68,7 +68,7 @@ class ESExceptionMiddleware(object):
     """Middleware to handle Elasticsearch errors.
 
     HTTP 501
-      Returned when ``ES_DISABLED`` is True.
+      Returned when ``ES_OLD_DISABLED`` is True.
 
     HTTP 503
       Returned when any elasticsearch exception is thrown.
@@ -77,7 +77,7 @@ class ESExceptionMiddleware(object):
 
       * error: A string version of the exception thrown.
 
-    :arg disabled_template: The template to use when ES_DISABLED is True.
+    :arg disabled_template: The template to use when ES_OLD_DISABLED is True.
 
         Defaults to ``elasticutils/501.html``.
 
@@ -102,7 +102,7 @@ class ESExceptionMiddleware(object):
             error_template or 'elasticutils/503.html')
 
     def process_request(self, request):
-        if getattr(settings, 'ES_DISABLED', False):
+        if getattr(settings, 'ES_OLD_DISABLED', False):
             response = render(request, self.disabled_template)
             response.status_code = 501
             return response
@@ -172,12 +172,12 @@ class S(BaseS):
         return super(S, self).get_es(default_builder=default_builder)
 
     def get_indexes(self, default_indexes=None):
-        """Returns the list of indexes to act on based on ES_INDEXES setting
+        """Returns the list of indexes to act on based on ES_OLD_INDEXES setting
 
         """
         doctype = self.type.get_mapping_type_name()
-        indexes = (settings.ES_INDEXES.get(doctype) or
-                   settings.ES_INDEXES['default'])
+        indexes = (settings.ES_OLD_INDEXES.get(doctype) or
+                   settings.ES_OLD_INDEXES['default'])
         if isinstance(indexes, six.string_types):
             indexes = [indexes]
         return super(S, self).get_indexes(default_indexes=indexes)
@@ -225,19 +225,19 @@ class MappingType(BaseMappingType):
     def get_index(cls):
         """Gets the index for this model.
 
-        The index for this model is specified in `settings.ES_INDEXES`
+        The index for this model is specified in `settings.ES_OLD_INDEXES`
         which is a dict of mapping type -> index name.
 
         By default, this uses `.get_mapping_type()` to determine the
-        mapping and returns the value in `settings.ES_INDEXES` for that
-        or ``settings.ES_INDEXES['default']``.
+        mapping and returns the value in `settings.ES_OLD_INDEXES` for that
+        or ``settings.ES_OLD_INDEXES['default']``.
 
         Override this to compute it differently.
 
         :returns: index name to use
 
         """
-        indexes = settings.ES_INDEXES
+        indexes = settings.ES_OLD_INDEXES
         index = indexes.get(cls.get_mapping_type_name()) or indexes['default']
         if not (isinstance(index, six.string_types)):
             # FIXME - not sure what to do here, but we only want one

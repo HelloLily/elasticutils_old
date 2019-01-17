@@ -45,20 +45,20 @@ file:
 
 .. module:: django.conf.settings
 
-.. data:: ES_DISABLED
+.. data:: ES_OLD_DISABLED
 
-   If `ES_DISABLED = True`, then Any method wrapped with
+   If `ES_OLD_DISABLED = True`, then Any method wrapped with
    `es_required` will return and log a warning. This is useful while
    developing, so you don't have to have Elasticsearch running.
 
-.. data:: ES_URLS
+.. data:: ES_OLD_URLS
 
    This is a list of Elasticsearch urls. In development this will look
    like::
 
-       ES_URLS = ['http://localhost:9200']
+       ES_OLD_URLS = ['http://localhost:9200']
 
-.. data:: ES_INDEXES
+.. data:: ES_OLD_INDEXES
 
    This is a mapping of doctypes to indexes. A `default` mapping is
    required for types that don't have a specific index.
@@ -70,14 +70,14 @@ file:
 
    Example 1::
 
-       ES_INDEXES = {'default': 'main_index'}
+       ES_OLD_INDEXES = {'default': 'main_index'}
 
    This only has a default, so all ElasticUtils queries will look in
    `main_index` for all mapping types.
 
    Example 2::
 
-       ES_INDEXES = {'default': 'main_index',
+       ES_OLD_INDEXES = {'default': 'main_index',
                      'splugs': 'splugs_index'}
 
    Assuming you have a `Splug` model which has a
@@ -88,7 +88,7 @@ file:
 
    Example 3::
 
-       ES_INDEXES = {'default': ['main_index'],
+       ES_OLD_INDEXES = {'default': ['main_index'],
                      'splugs': ['splugs_index']}
 
    FIXME: The API allows for this. Pretty sure it should query
@@ -96,7 +96,7 @@ file:
    tested it, either.
 
 
-.. data:: ES_TIMEOUT
+.. data:: ES_OLD_TIMEOUT
 
    **Default:** ``5``
 
@@ -244,12 +244,12 @@ Writing tests
 When writing test cases for your ElasticUtils-using code, you'll want
 to do a few things:
 
-1. Default ``ES_DISABLED`` to `True`. This way, the tests that kick off
+1. Default ``ES_OLD_DISABLED`` to `True`. This way, the tests that kick off
    creating data but aren't testing search-specific things don't
    additionally index stuff. That'll save you a bunch of test time.
 
 2. When testing ElasticUtils things, override the settings and set
-   ``ES_DISABLED`` to `False`.
+   ``ES_OLD_DISABLED`` to `False`.
 
 3. Use an ``ESTestCase`` that sets up the indexes before tests run and
    tears them down after they run.
